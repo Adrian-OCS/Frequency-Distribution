@@ -40,8 +40,8 @@ public class SequentialFD<E extends Comparable<E>> extends AbstractFDStrategy<E>
 			
 			boolean found = false;
 			
-			//Loops through all "j" elements to compare their keys to the current dataSet element i.
-			//If condition met (current dataSet i object is already in results), counter value++ and loop breaks
+			//Loops through all results elements (at most) to compare their keys to the current dataSet element i.
+			//If condition met (current dataSet i object is already in results), current result's element value++ (counter) and loop breaks
 			for (int j=0; j<results.size(); j++) {
 				if (results.get(j).getKey().equals(dataSet.get(i))) {
 					results.get(j).setValue(results.get(j).getValue() + 1);
