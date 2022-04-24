@@ -39,7 +39,7 @@ public class MapFD<E extends Comparable<E>> extends AbstractFDStrategy<E> {
 		//Else, increase the found key's value by 1 
 		for (int i=0; i<dataSet.size(); i++) {
 			if (table.containsKey(dataSet.get(i))) {
-				table.put(dataSet.get(i), table.get(dataSet.get(i))+1);
+				table.replace(dataSet.get(i), table.get(dataSet.get(i))+1);
 			}
 			else {
 				table.put(dataSet.get(i), 1);
