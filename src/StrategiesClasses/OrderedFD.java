@@ -2,6 +2,9 @@ package StrategiesClasses;
 
 import java.util.AbstractMap;
 
+
+
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -40,38 +43,40 @@ public class OrderedFD<E extends Comparable<E>> extends AbstractFDStrategy<E> {
 		//Adds sorted's 1st entry to results, in order to make looping and comparisons possible
 		results.add(new AbstractMap.SimpleEntry<E, Integer>(dataSet.get(0), 1));
 		
-		//Loops through all of sorted's elements
+		/*
+		 * Loops through all dataSet sorted elements with i and j
+		 * While results' last element has same key as iteration (i): j stays the same, entry value++, i++
+		 * If key not the same, j equals i (i being the 1st entry w/a different key)
+		 * This method will make an O(n) iteration with i and j
+		 */
+		
+		int j = 0;
 		for (int i=1; i<dataSet.size(); i++) {
 			
-			boolean found = false;
-			
-			//Loops through all results elements (at most) to compare their keys to the current sorted element i.
-			//If condition met (current sorted i object is already in results), current result's element value++ (counter) and loop breaks
-			for (int j=0; j<results.size(); j++) {
-				
-				
-				//Compares current sorted element i to results element j.
-				//If result's j is bigger than sorted's i, loop breaks, since there will never be a key equal to i after that.
-				if (results.get(j).getKey().compareTo(dataSet.get(i)) > 0) {
-					break;
-				}
-				
-				if (results.get(j).getKey().equals(dataSet.get(i))) {
-					results.get(j).setValue(results.get(j).getValue() + 1);
-					found = true;
-					break;
-				}
+			//While the last key in results equals current i in dataSet: results' last value++, i++
+			while (i<dataSet.size() && results.get(results.size()-1).getKey().compareTo(dataSet.get(i)) == 0) {
+				results.get(results.size()-1).setValue(results.get(results.size()-1).getValue() + 1);
+				i++;
 			}
 			
-			//If sorted i not in results, it gets added as key of a new map entry with value 1
-			if (!found) {
-				results.add(new AbstractMap.SimpleEntry<E, Integer>(dataSet.get(i), 1));
+			/*
+			 * If dataSet i key not equal to results' last element:
+			 * j will equal that new element's position
+			 * add i to results.
+			 * 
+			 * The next iteration will start with j being one item less than i.
+			 * This way, j is optimized to not loop through all values as in a nested loop.
+			 */
+			
+			if (i<dataSet.size()) {
+				j=i;
+				results.add(new AbstractMap.SimpleEntry<E, Integer>(dataSet.get(j), 1));
 			}
-							
-		} 
 
-		return results; 	
+		}
+	
+		return results; 
 		
 	}
-
+	
 }
